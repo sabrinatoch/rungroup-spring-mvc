@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Club Details</title>
+</head>
+<body>
+<main layout:fragment="body">
+    <h1 class="text-center" th:text="${club.title}"></h1>
+    <div class="container">
+        <div class="container p-3 txt-holder text-center">
+            <h3>About this running club</h3>
+            <div class="text-white" th:text="${'Created on: ' + #temporals.format(club.createdOn, 'dd/MM/yyyy')}"></div>
+            <div class="text-white" th:text="${'Last updated: ' + #temporals.format(club.updatedOn, 'dd/MM/yyyy')}"></div><br>
+            <div th:text="${club.content}"></div>
+            <img th:src="${club.photourl}" alt="Club photo" width="250px" class="mb-2"/><br>
+            <div th:if="${user.id} == ${club.createdBy.id}">
+                <a class="btn btn-warning" th:href="@{/events/{clubId}/new(clubId=${club.id})}">Create Event</a>
+                <a class="btn btn-danger" th:href="@{/clubs/{clubId}/delete(clubId=${club.id})}">Delete</a>
+            </div>
+        </div><br>
+        <div class="container p-3 txt-holder">
+            <h3 class="text-center">Events</h3>
+            <div class="card mb-2 bg-dark" th:each="event :${club.events}">
+                <a href="#"><img class="card-img-top" th:src="${event.photourl}"/></a>
+                <div class="card-body">
+                    <h4 class="card-title text-warning" th:text="${event.name}"></h4>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor.</p>
+                    <a class="btn btn-warning" th:href="@{/events/{eventId}(eventId=${event.id})}">Learn more --></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>

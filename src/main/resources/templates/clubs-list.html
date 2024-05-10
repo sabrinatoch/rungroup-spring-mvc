@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Club List</title>
+</head>
+<body>
+<main layout:fragment="body">
+    <div th:if="${param.success}" class="alert alert-warning">
+        You have registered successfully!
+    </div>
+    <h1 class="display-h3 text-center">Clubs Near You</h1>
+    <div class="d-flex justify-content-center">
+        <form th:action="@{/clubs/search}" class="form-inline my-2 my-lg-0 mb-2">
+            <input type="search" name="query" class="form-control mr-sm-2" placeholder="Search running clubs" aria-label="Search"/>
+        </form>
+    </div>
+    <table class="table table-bordered">
+        <tr class="table-header bg-dark text-white">
+            <td>Title</td>
+            <td>Content</td>
+            <td>Photo</td>
+            <td>Actions</td>
+        </tr>
+        <tr th:each="club :${clubs}">
+            <td th:text="${club.title}"></td>
+            <td th:text="${club.content}"></td>
+            <td><img th:src="${club.photourl}" width="150px"/></td>
+            <td>
+                <a th:href="@{/clubs/{clubId}(clubId=${club.id})}">View</a>
+                <div th:if="${user.id} == ${club.createdBy.id}">
+                    <a th:href="@{/clubs/{clubId}/edit(clubId=${club.id})}">Edit</a>
+                </div>
+            </td>
+        </tr>
+    </table>
+</main>
+
+</body>
+</html>

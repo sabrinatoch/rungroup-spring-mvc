@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Event Details</title>
+</head>
+<body>
+<main layout:fragment="body">
+    <h1 class="text-center" th:text="${event.name}"></h1>
+    <div class="container">
+        <div class="container p-3 txt-holder text-center">
+            <h3>About this running event</h3>
+            <div class="text-white" th:text="${'Created on: ' + #temporals.format(event.createdOn, 'dd/MM/yyyy')}"></div>
+            <div class="text-white" th:text="${'Last updated: ' + #temporals.format(event.updatedOn, 'dd/MM/yyyy')}"></div><br>
+            <div th:text="${event.type}"></div>
+            <div class="text-white" th:text="${'Start time: ' + #temporals.format(event.startTime, 'dd/MM/yyyy HH:mm')}"></div>
+            <div class="text-white" th:text="${'End time: ' + #temporals.format(event.endTime, 'dd/MM/yyyy HH:mm')}"></div>
+            <img th:src="${event.photourl}" alt="Event photo" width="250px" class="mb-2"/><br>
+            <div th:if="${user.id} == ${event.club.createdBy.id}">
+                <a class="btn btn-danger" th:href="@{/events/{eventId}/delete(eventId=${event.id})}">Delete</a>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>

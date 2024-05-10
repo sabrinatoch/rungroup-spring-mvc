@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Event List</title>
+</head>
+<body>
+<main layout:fragment="body">
+    <h1 class="display-h3 text-center">Events Near You</h1>
+    <table class="table table-bordered">
+        <tr class="table-header bg-dark text-white">
+            <td>Name</td>
+            <td>Event Type</td>
+            <td>Start Time</td>
+            <td>End Time</td>
+            <td>Photo</td>
+            <td>Actions</td>
+        </tr>
+        <tr th:each="event :${events}">
+            <td th:text="${event.name}"></td>
+            <td th:text="${event.type}"></td>
+            <td th:text="${#temporals.format(event.startTime, 'dd/MM/yyyy HH:mm')}"></td>
+            <td th:text="${#temporals.format(event.endTime, 'dd/MM/yyyy HH:mm')}"></td>
+            <td><img th:src="${event.photourl}" width="150px"/></td>
+            <td>
+                <a th:href="@{/events/{eventId}(eventId=${event.id})}">View</a>
+                <div th:if="${user.id} == ${event.club.createdBy.id}">
+                    <a th:href="@{/events/{eventId}/edit(eventId=${event.id})}">Edit</a>
+                </div>
+            </td>
+        </tr>
+    </table>
+</main>
+
+</body>
+</html>
